@@ -1,54 +1,55 @@
 //Arreglo inicial de usuarios
 let usuarios =[];
 
-//funcion de registrar usuarios
-agregarUsuario () {
-    //Captura de datos
-    const nombre = document.getElementById("nombre").value.trim(); 
-    const edad = parseInt(document.getElementById("edad").value);
-    const especie = document.getElementById("rol").value;
-    const especie = document.getElementById("estado").value;
-    //Parrafo para el mensaje
-    const visorFeedback = document.getElementById("mensaje-feedback");
-
-    // Validacion no usar caracteres raros, pedir ayuda a ia para completar
+//Función de Validación
+function validarFormulario(nombre, edad, rol, estado) {
     const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-
-    //Validación casos
-    if (nombre === "" || isNaN(edad)) {
+    const visorFeedback = document.getElementById("mensaje-feedback");
+    
+    if (nombre === "" || isNaN(edad) || rol === "" || estado === "") {
         visorFeedback.textContent = "Error: Todos los campos son obligatorios.";
         visorFeedback.style.color = "red";
-        console.log("Usuario dejo vacio alguno de los campos");
-    } else if (!soloLetras.test(nombre)) {
+        return false;
+    }
+    if (edad <= 0) {
+        visorFeedback.textContent = "Error: La edad debe ser mayor a 0.";
+        visorFeedback.style.color = "red";
+        return false;
+    }
+    if (!soloLetras.test(nombre)) {
         visorFeedback.textContent = "Error: El nombre solo debe tener letras.";
         visorFeedback.style.color = "red";
-        console.log("Usuario uso caracteres distintos a letras");
-    } else if (edad <= 0) {
-        visorFeedback.textContent = "Edad minima es de 1 año";
-        visorFeedback.style.color = "red";
-        console.log("Edad usuario menor a cero");
-    } else {
-        visorFeedback.textContent = "¡Registro exitoso para  el usuario" + nombre ;
-        visorFeedback.style.color = "green";
-        console.log("Datos validados con exito");
+        return false;
+    }
+    //Todo es valido
+    console.log("Usuario validado correctamente");
+    return true;
+}
 
-        //Guardar a los usuarios como objetos
+//Función para Agregar Usuario
+function agregarUsuario() {
+    const nombre = document.getElementById("input-nombre").value.trim();
+    const edad = parseInt(document.getElementById("input-edad").value);
+    const rol = document.getElementById("select-rol").value;
+
+    if (validarFormulario(nombre, edad)) {
         const nuevoUsuario = {
+            id: Date.now(), //para llevar un registro del momento del registro
             nombre: nombre,
             edad: edad,
             rol: rol,
-            activo: true,
+            activo: true // Por defecto es Activo
         };
-        //Agregando paciente al arreglo global
+
         usuarios.push(nuevoUsuario);
-        console.log("Usuario guardado como objeto a la lista");
-        // Limpiamos los campos para que quede listo para otro registro
-        document.getElementById("nombre").value = "";
-        document.getElementById("edad").value = "";
-        console.log("Se limpiaron los campos");
-        //llamar a la renderizacion
-        mostrarUsuario()
-};
+
+        // Limpieza del formulario
+        document.getElementById("input-nombre").value = "";
+        document.getElementById("input-edad").value = "";
+
+        mostrarUsuarios();
+    }
+}
 
 //funcion de renderizar la lista de usuarios
 mostrarUsuario () {
@@ -65,14 +66,18 @@ mostrarUsuario () {
 
 filtrarUsuario () {
     //Selector: Todos, soloAdmins y soloUsuarios
+    function cambiarEstado(id) {
+    usuarios.forEach(function(user) {
+        if (user.id === id) {
+            user.activo = !user.activo; // Alterna entre true y false
+        }
+    });
+    // Si hay un filtro activo, mantiene la vista filtrada
+    filtrarUsuarios();
+}
 };
 
 cambiarEstado () {
     //Alterna estado de activo a inactivo
 };
 
-validarFormulario () {
-    /*Dentro de agregarUsuario?
-    Ningún campo puede estar vacío.
-    Edad debe ser un número mayor a 0. */
-};
