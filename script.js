@@ -89,9 +89,20 @@ function mostrarUsuarios(listaRenderizar = usuarios) {
     document.getElementById("contador-inactivos").textContent = inactivos;
 }
 
-filtrarUsuario () {
-    //Selector: Todos, soloAdmins y soloUsuarios
-};
+function filtrarUsuarios() {
+    const filtro = document.getElementById("filtro-rol").value;
+    let listaFiltrada = [];
+
+    if (filtro === "Todos") {
+        listaFiltrada = usuarios;
+    } else {
+        listaFiltrada = usuarios.filter(function(user) {
+            return user.rol === filtro;
+        });
+    }
+    
+    mostrarUsuarios(listaFiltrada);
+}
 
 function cambiarEstado(id) {
     usuarios.forEach(function(user) {
@@ -113,8 +124,11 @@ function eliminarUsuario(id) {
     visorFeedback.textContent = "Se ha eliminado" + id;
     visorFeedback.style.color = "blue";
     console.log("Se elimino " + id);
-    mostrarUsuario(); //revisar
+    filtrarUsuarios(); 
 };
 
-//Al apretar el boton corre la validacion y registro
-document.getElementById("btn-agregar").addEventListener("click", agregarUsuario);
+// Listeners de Eventos, boton y filtro de rol
+window.onload = function() {
+    document.getElementById("btn-agregar").addEventListener("click", agregarUsuario);
+    document.getElementById("filtro-rol").addEventListener("change", filtrarUsuarios);
+};
