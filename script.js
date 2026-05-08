@@ -52,57 +52,69 @@ function agregarUsuario() {
 }
 
 //funcion de renderizar la lista de usuarios
-mostrarUsuario () {
-    //Buscar el <ul> por ID y Limpiar con innerHTML
-    const listaUI = document.getElementById("lista-usuarios");
-    listaUI.innerHTML = "";
-    //funcion para cada usuario, recorrer el arreglo
-    pacientes.forEach(function(usuarios) {
-        //Crear <li> 
-        const li = document.createElement("li");
-        // Formateo del texto informativo
-        li.textContent = usuarios.nombre + ", " + usuarios.edad + " años" + ", " + usuarios,rol + ", " + usuarios,estado ;
-        
-        //Crear el botón "Eliminar"
-        const btnEliminar = document.createElement("button");
-        btnEliminar.textContent = "Eliminar";
-        //CLick del boton eliminar
-        btnEliminar.onclick = function() { 
-            eliminarUsuario(usuario.id);
-        };
-        
-        const btnEstado = document.createElement("button");
-        //CLick del boton estado
-        btnEstado.onclick = function() { 
-            eliminarUsuario(usuario.id);
-        };
-        //Hacer el appendChild para elementos de la lista y botones
-        li.appendChild(btnEstado);
-        li.appendChild(btnEliminar);
-        listaUI.appendChild(li);
-    });    
-};
+function mostrarUsuarios(listaRenderizar = usuarios) {
+    const tablaUI = document.getElementById("tabla-usuarios");
+    tablaUI.innerHTML = ""; // Limpiar tabla
+
+    let activos = 0;
+    let inactivos = 0;
+
+    listaRenderizar.forEach(function(user) {
+        // Conteo para estadísticas (Punto adicional)
+        if (user.activo) activos++; else inactivos++;
+
+        const tr = document.createElement("tr");
+
+        // Creamos las celdas usando innerHTML para simplificar la creación de la fila
+        tr.innerHTML = `
+            <td>${user.nombre}</td>
+            <td>${user.edad}</td>
+            <td>${user.rol}</td>
+            <td>
+                <span class="badge ${user.activo ? 'bg-success' : 'bg-secondary'}">
+                    ${user.activo ? 'Activo' : 'Inactivo'}
+                </span>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-warning me-1" onclick="cambiarEstado(${user.id})">Cambiar Estado</button>
+                <button class="btn btn-sm btn-danger" onclick="eliminarUsuario(${user.id})">Eliminar</button>
+            </td>
+        `;
+
+        tablaUI.appendChild(tr);
+    });
+
+    // Actualizar contadores
+    document.getElementById("contador-activos").textContent = activos;
+    document.getElementById("contador-inactivos").textContent = inactivos;
+}
 
 filtrarUsuario () {
     //Selector: Todos, soloAdmins y soloUsuarios
 };
 
-cambiarEstado () {
-    //Alterna estado de activo a inactivo
-};
+function cambiarEstado(id) {
+    usuarios.forEach(function(user) {
+        if (user.id === id) {
+            user.activo = !user.activo; // Alterna entre true y false
+        }
+    });
+    // Si hay un filtro activo, mantiene la vista filtrada
+    filtrarUsuarios();
+}
 
-eliminarUsuario(id) {
+function eliminarUsuario(id) {
     //Usar filter para eliminar registro de mascota según id.
-    usuarios = usuarios.filter(function(t){
-        return t.id !==id;
+    usuarios = usuarios.filter(function(user){
+        return user.id !==id;
     })
     //Llamar a renderizarLista() para actualizar
     const visorFeedback = document.getElementById("mensaje-feedback");
     visorFeedback.textContent = "Se ha eliminado" + id;
     visorFeedback.style.color = "blue";
     console.log("Se elimino " + id);
-    mostrarUsuario();
+    mostrarUsuario(); //revisar
 };
 
 //Al apretar el boton corre la validacion y registro
-document.getElementById("btn-agregar").addEventListener("click", registrarUsuario);
+document.getElementById("btn-agregar").addEventListener("click", agregarUsuario);
