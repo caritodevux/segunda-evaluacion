@@ -85,17 +85,34 @@ function mostrarUsuarios(listaRenderizar = usuarios) {
 }
 
 function filtrarUsuarios() {
-    const filtro = document.getElementById("filtro-rol").value;
-    let listaFiltrada = [];
+    // 1. Capturamos el valor de AMBOS filtros
+    const valorRol = document.getElementById("filtro-rol").value;
+    const valorEdad = document.getElementById("filtro-edad").value;
 
-    if (filtro === "todos") {
-        listaFiltrada = usuarios;
-    } else {
-        listaFiltrada = usuarios.filter(function(user) {
-            return user.rol === filtro;
+    // Empezamos asumiendo que mostraremos la lista completa
+    let listaFiltrada = usuarios;
+
+    // 2. Primer Colador: Filtro por Rol
+    if (valorRol !== "todos") {
+        listaFiltrada = listaFiltrada.filter(function(user) {
+            return user.rol === valorRol;
+        });
+    }
+
+    // 3. Segundo Colador: Filtro por Edad (se aplica a los que pasaron el primer colador)
+    if (valorEdad !== "todas") {
+        listaFiltrada = listaFiltrada.filter(function(user) {
+            if (valorEdad === "menores-18") {
+                return user.edad < 18;
+            } else if (valorEdad === "18-35") {
+                return user.edad >= 18 && user.edad <= 35;
+            } else if (valorEdad === "mayores-35") {
+                return user.edad > 35;
+            }
         });
     }
     
+    // 4. Renderizamos la lista que sobrevivió a ambos filtros
     mostrarUsuarios(listaFiltrada);
 }
 
@@ -124,4 +141,5 @@ function eliminarUsuario(id) {
 window.onload = function() {
     document.getElementById("btn-agregar").addEventListener("click", agregarUsuario);
     document.getElementById("filtro-rol").addEventListener("change", filtrarUsuarios);
+    document.getElementById("filtro-edad").addEventListener("change", filtrarUsuarios);
 };
