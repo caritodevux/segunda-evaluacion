@@ -15,7 +15,7 @@ Durante el desarrollo de esta evaluación, utilicé herramientas de Inteligencia
 * **Manejo de Eventos (Listeners):** Solicité orientación para aplicar correctamente los eventos en los botones y selectores, asegurando el uso adecuado de `addEventListener` y controlando la carga inicial con `window.onload`.
 * **Debugging y Sincronización:** Utilicé la IA para revisar ambos documentos (HTML y JS) en busca de errores tipográficos y para asegurar que los identificadores (`id`) coincidieran de forma exacta, previniendo errores de referencia en consola.
 * **Lógica de Filtros Avanzados:** Pedí asistencia para diseñar e implementar la lógica matemática y estructural del filtro por rangos de edad utilizando métodos de arreglos (`.filter()`).
-* **Diseño e Interfaz Gráfica:** Finalmente, le solicité aplicar estilos visuales estructurados mediante el framework Bootstrap. Esto me permitió entregar una interfaz moderna, limpia y responsiva de manera ágil.
+* **Diseño e Interfaz Gráfica:** Finalmente, le solicité aplicar estilos visuales tipo CRM-empresarial, mobile first, mediante el framework Bootstrap. Esto me permitió entregar una interfaz moderna, limpia y responsiva de manera ágil.
 
 ## 3. Funcionalidades Adicionales Implementadas
 * Estadísticas en tiempo real de usuarios activos e inactivos.

@@ -65,14 +65,29 @@ function mostrarUsuarios(listaRenderizar = usuarios) {
 
         const tr = document.createElement("tr");
 
+// Reemplazo visual para estilo CRM corporativo
         tr.innerHTML = `
-            <td>${user.nombre}</td>
-            <td>${user.edad}</td>
-            <td>${user.rol}</td>
-            <td>${user.activo ? 'Activo' : 'Inactivo'}</td>
+            <td class="ps-4 fw-bold text-dark">${user.nombre}</td>
+            <td>${user.edad} años</td>
             <td>
-                <button onclick="cambiarEstado(${user.id})">Cambiar Estado</button>
-                <button onclick="eliminarUsuario(${user.id})">Eliminar</button>
+                <span class="badge border border-secondary text-secondary bg-light">
+                    ${user.rol.toUpperCase()}
+                </span>
+            </td>
+            <td>
+                <span class="badge ${user.activo ? 'bg-success' : 'bg-danger'}">
+                    ${user.activo ? 'Activo' : 'Inactivo'}
+                </span>
+            </td>
+            <td class="text-end pe-4">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="cambiarEstado(${user.id})">
+                        Alternar
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="eliminarUsuario(${user.id})">
+                        Borrar
+                    </button>
+                </div>
             </td>
         `;
 
