@@ -1,7 +1,7 @@
-//Arreglo inicial de usuarios
-let usuarios =[];
+// Arreglo inicial de usuarios
+let usuarios = [];
 
-//Función de Validación
+// Función de Validación
 function validarFormulario(nombre, edad) {
     const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     const visorFeedback = document.getElementById("mensaje-feedback");
@@ -21,70 +21,65 @@ function validarFormulario(nombre, edad) {
         visorFeedback.style.color = "red";
         return false;
     }
-    //Todo es valido
-    console.log("Usuario validado correctamente");
     return true;
 }
 
-//Función para Agregar Usuario
+// Función para Agregar Usuario
 function agregarUsuario() {
-    const nombre = document.getElementById("input-nombre").value.trim();
-    const edad = parseInt(document.getElementById("input-edad").value);
-    const rol = document.getElementById("select-rol").value;
+    // CORREGIDO: Usando los IDs exactos del HTML
+    const nombre = document.getElementById("nombre").value.trim();
+    const edad = parseInt(document.getElementById("edad").value);
+    const rol = document.getElementById("rol").value;
 
     if (validarFormulario(nombre, edad)) {
         const nuevoUsuario = {
-            id: Date.now(), //para llevar un registro del momento del registro
+            id: Date.now(), 
             nombre: nombre,
             edad: edad,
             rol: rol,
-            activo: true // Por defecto es Activo
+            activo: true 
         };
 
         usuarios.push(nuevoUsuario);
 
-        // Limpieza del formulario
-        document.getElementById("input-nombre").value = "";
-        document.getElementById("input-edad").value = "";
+        // CORREGIDO: Limpieza usando los IDs correctos
+        document.getElementById("nombre").value = "";
+        document.getElementById("edad").value = "";
+        document.getElementById("mensaje-feedback").textContent = "Usuario agregado exitosamente.";
+        document.getElementById("mensaje-feedback").style.color = "green";
 
         mostrarUsuarios();
     }
 }
 
-//funcion de renderizar la lista de usuarios
+// Función de renderizar la lista de usuarios
 function mostrarUsuarios(listaRenderizar = usuarios) {
     const tablaUI = document.getElementById("tabla-usuarios");
-    tablaUI.innerHTML = ""; // Limpiar tabla
+    tablaUI.innerHTML = ""; 
 
     let activos = 0;
     let inactivos = 0;
 
     listaRenderizar.forEach(function(user) {
-        // Conteo para estadísticas (Punto adicional)
         if (user.activo) activos++; else inactivos++;
 
         const tr = document.createElement("tr");
 
-        // Creamos las celdas usando innerHTML para simplificar la creación de la fila
         tr.innerHTML = `
             <td>${user.nombre}</td>
             <td>${user.edad}</td>
             <td>${user.rol}</td>
+            <td>${user.activo ? 'Activo' : 'Inactivo'}</td>
             <td>
-                <span class="badge ${user.activo ? 'bg-success' : 'bg-secondary'}">
-                    ${user.activo ? 'Activo' : 'Inactivo'}
-                </span>
-            </td>
-            <td>
-                <button class="btn btn-sm btn-warning me-1" onclick="cambiarEstado(${user.id})">Cambiar Estado</button>
-                <button class="btn btn-sm btn-danger" onclick="eliminarUsuario(${user.id})">Eliminar</button>
+                <button onclick="cambiarEstado(${user.id})">Cambiar Estado</button>
+                <button onclick="eliminarUsuario(${user.id})">Eliminar</button>
             </td>
         `;
 
         tablaUI.appendChild(tr);
     });
 
-    // Actualizar contadores
+    // CORREGIDO: Ahora estos IDs sí existen en el HTML
     document.getElementById("contador-activos").textContent = activos;
     document.getElementById("contador-inactivos").textContent = inactivos;
 }
@@ -93,7 +88,7 @@ function filtrarUsuarios() {
     const filtro = document.getElementById("filtro-rol").value;
     let listaFiltrada = [];
 
-    if (filtro === "Todos") {
+    if (filtro === "todos") {
         listaFiltrada = usuarios;
     } else {
         listaFiltrada = usuarios.filter(function(user) {
@@ -107,27 +102,25 @@ function filtrarUsuarios() {
 function cambiarEstado(id) {
     usuarios.forEach(function(user) {
         if (user.id === id) {
-            user.activo = !user.activo; // Alterna entre true y false
+            user.activo = !user.activo; 
         }
     });
-    // Si hay un filtro activo, mantiene la vista filtrada
     filtrarUsuarios();
 }
 
 function eliminarUsuario(id) {
-    //Usar filter para eliminar registro de mascota según id.
     usuarios = usuarios.filter(function(user){
-        return user.id !==id;
-    })
-    //Llamar a renderizarLista() para actualizar
+        return user.id !== id;
+    });
+    
     const visorFeedback = document.getElementById("mensaje-feedback");
-    visorFeedback.textContent = "Se ha eliminado" + id;
+    visorFeedback.textContent = "Se ha eliminado el usuario ID: " + id;
     visorFeedback.style.color = "blue";
-    console.log("Se elimino " + id);
+    
     filtrarUsuarios(); 
-};
+}
 
-// Listeners de Eventos, boton y filtro de rol
+// Listeners de Eventos
 window.onload = function() {
     document.getElementById("btn-agregar").addEventListener("click", agregarUsuario);
     document.getElementById("filtro-rol").addEventListener("change", filtrarUsuarios);
