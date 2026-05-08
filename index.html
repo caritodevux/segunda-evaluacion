@@ -8,8 +8,25 @@
 <body>
     <h1>Sitema de gestión de usuarios</h1>
     <h2>Registro de Usuarios</h2>
-    <h2>Usuarios registrados en el sistema</h2>
-    <h3>Estado de los usuarios</h3>
+    <p>Por favor ingrese los datos del usuario</p>
+    <p>Nombre</p>
+    <input type="text" id="nombre" placeholder="nombre del usuario">
+    <p>Edad</p>
+    <input type="number" id="edad" placeholder="edad en años">
+    <p>Rol</p>
+    <select id="rol" name="Rol del Usuario">
+        <option value="administrador">Administrador</option>
+        <option value="usuario">Usuario</option>
+    <p>Estado</p> <!-- No aparec de manera correcta ¿? -->
+    <select id="estado" name="Estado del Usuario">
+        <option value="activo">Activo</option>
+        <option value="inactivo">Inactivo</option>
+    <br> <!-- Quitar cuando aplique estilos css -->
+    <p id="mensaje-feedback"></p>
+    <br> <!-- Quitar cuando aplique estilos css -->
+    <h2>Lista de Usuarios registrados en el sistema</h2>
+    <ul id="lista-usuarios"></ul>
+    <!-- como muestro botones de control para cada usuario? -->
     <script src="script.js"></script>
 </body>
 </html>

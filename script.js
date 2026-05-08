@@ -1,8 +1,7 @@
 //Arreglo inicial de usuarios
 let usuarios =[];
 
-//funciones
-
+//funcion de registrar usuarios
 agregarUsuario () {
     /* 
     1. Nombre
@@ -14,14 +13,16 @@ agregarUsuario () {
     Edad debe ser un número mayor a 0 */
 };
 
+//funcion de renderizar la lista de usuarios
 mostrarUsuario () {
-    /**
+    /** Como arreglo de objetos
      * Usuario debe mostrar:
      * - Nombre
      * - Edad
      * - Rol
      * - Estado
-     * Debe modificarse, llamar a cambiarEstado()?
+     * llamar a cambiarEstado()?
+     * llamar a filtarUsuario()?
      */
 };
 
